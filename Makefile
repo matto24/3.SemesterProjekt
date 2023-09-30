@@ -1,0 +1,31 @@
+.PHONY: all clean
+
+CC := g++
+CFLAGS := -std=c++11 -Wno-deprecated-enum-enum-conversion -O2
+
+# SFML libraries
+SFML_LIBS := -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+
+SOURCES := $(wildcard *.cpp)
+OBJECTS := $(patsubst %.cpp,%.o,$(SOURCES))
+DEPENDS := $(patsubst %.cpp,%.d,$(SOURCES))
+
+# Executable name
+EXECUTABLE := main
+
+all: $(EXECUTABLE)
+
+clean:
+	$(RM) $(OBJECTS) $(DEPENDS) $(EXECUTABLE)
+
+-include $(DEPENDS)
+
+# Make object files
+%.o: %.cpp Makefile
+	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
+
+# Linking the executable from the object files
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $^ -o $@ $(SFML_LIBS)
+	./$(EXECUTABLE)
+
