@@ -36,30 +36,29 @@ If using audio output it has to be the same saple frequency Used there*/
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include <string>
-#include <list>
+#include <vector>
 #include "sound.h"
 
 
-// std::list<DtmfSound> sounds;
+
 
 // void initSounds() {
-//     for(int i=0; i<10; i++) {
-//         DtmfSound sound(std::to_string(i));
-//         sounds.push_back(sound);
-//     }
+    
 // }
 
-int main() {
+int main() { 
+    std::vector<DtmfSound> sounds;
 
+    for(int i=0; i<10; i++) {
+        DtmfSound sound(std::to_string(i));
+        sounds.push_back(sound);
+    }
 
-    std::string x;
+    int x;
     std::cout << "Insert sound number here ";
     std::cin >> x;
 
-    DtmfSound testSound(x);
-    testSound.playSound();
-
-
+    sounds[x].playSound();
 
     return 0;
 }
