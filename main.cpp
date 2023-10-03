@@ -1,66 +1,99 @@
-
-// #include <math.h>
-// #include <stdio.h>
-
-// #define S_FREQ 8000 
-
-/*Sample frequency, should be greater thar 2*sineFrequency
-If using audio output it has to be the same saple frequency Used there*/
-
-
-//const float frequency_in_Hertz = 697; /*set output frequency*/
-// const float generatorContant1 = cosf(2*M_PI*(frequency_in_Hertz/S_FREQ));
-// const float generatorContant2 = sinf(2*M_PI*(frequency_in_Hertz/S_FREQ));
-
-
-// float GenerateSignal(){
-//   static float Register[2]={1,0};
-//   static float FeedBack;
-
-//   FeedBack=2*generatorContant1*Register[0]-Register[1];
-//   Register[1]=Register[0];  
-//   Register[0]=FeedBack;
-
-//   return (generatorContant2*Register[1]);
-// }
-
-
-// int main(void) {
-//   /*generate 300 samples*/
-//   for (int NumberOfSamples = 300; NumberOfSamples > 0; NumberOfSamples--) 
-//     printf("\n%f", GenerateSignal());
-//   return 0;
-// }
-
-
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
 #include "sound.h"
 
+//Ctrl + B to call makefile
 
+//  int main() { 
+//      std::vector<DtmfSound> sounds;
+//      //Initializing all sounds and storing them in a vector
+//      for(int i=0; i<16; i++) {
+//          DtmfSound sound(std::to_string(i));
+//          sounds.push_back(sound);
+//      }
+//      int x;
+//    std::cout << "Insert sound number here ";
+//      std::cin >> x;
 
+//     sounds[x].playSound();
 
-// void initSounds() {
-    
-// }
+//      return 0;
+//  }
+// Start of wxWidgets "Hello World" Program
 
-int main() { 
-    std::vector<DtmfSound> sounds;
+#include <wx/wx.h>
 
-    for(int i=0; i<10; i++) {
-        DtmfSound sound(std::to_string(i));
-        sounds.push_back(sound);
-    }
-
-    int x;
-    std::cout << "Insert sound number here ";
-    std::cin >> x;
-
-    sounds[x].playSound();
-
-    return 0;
+class MyApp : public wxApp
+{
+public:
+    bool OnInit() override;
+};
+ 
+wxIMPLEMENT_APP(MyApp);
+ 
+class MyFrame : public wxFrame
+{
+public:
+    MyFrame();
+ 
+private:
+    void OnHello(wxCommandEvent& event);
+    void OnExit(wxCommandEvent& event);
+    void OnAbout(wxCommandEvent& event);
+};
+ 
+enum
+{
+    ID_Hello = 1
+};
+ 
+bool MyApp::OnInit()
+{
+    MyFrame *frame = new MyFrame();
+    frame->Show(true);
+    return true;
 }
-
-
+ 
+MyFrame::MyFrame()
+    : wxFrame(nullptr, wxID_ANY, "Blank canvas")
+{
+    wxMenu *menuFile = new wxMenu;
+    menuFile->Append(ID_Hello, "&Hello...\tCtrl-H",
+                     "Help string shown in status bar for this menu item");
+    menuFile->AppendSeparator();
+    menuFile->Append(wxID_EXIT);
+ 
+    wxMenu *menuHelp = new wxMenu;
+    menuHelp->Append(wxID_ABOUT);
+ 
+    wxMenuBar *menuBar = new wxMenuBar;
+    menuBar->Append(menuFile, "&File");
+    menuBar->Append(menuHelp, "&Help");
+ 
+    SetMenuBar( menuBar );
+ 
+    CreateStatusBar();
+    SetStatusText("Welcome to wxWidgets!");
+ 
+    Bind(wxEVT_MENU, &MyFrame::OnHello, this, ID_Hello);
+    Bind(wxEVT_MENU, &MyFrame::OnAbout, this, wxID_ABOUT);
+    Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
+}
+ 
+void MyFrame::OnExit(wxCommandEvent& event)
+{
+    Close(true);
+}
+ 
+void MyFrame::OnAbout(wxCommandEvent& event)
+{
+    wxMessageBox("This is a wxWidgets Hello World example",
+                 "About Hello World", wxOK | wxICON_INFORMATION);
+}
+ 
+void MyFrame::OnHello(wxCommandEvent& event)
+{
+    wxLogMessage("Hello world from wxWidgets!");
+} 

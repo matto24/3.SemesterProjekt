@@ -19,7 +19,6 @@ void DtmfSound::playSound() {
     sound.play();
     // Keep the program running to allow audio to play
     while (sound.getStatus() == sf::Sound::Playing) {
-        
     }
 }
 
